@@ -2,7 +2,7 @@
 
 from mcp.server.fastmcp import FastMCP
 
-from config.settings import Settings, get_settings
+from config.settings import get_settings
 from rtfm.embeddings.local import SentenceTransformerEmbedder
 from rtfm.retrieval.retriever import Retriever
 from rtfm.storage.chroma import ChromaVectorStore
@@ -64,7 +64,8 @@ def query_knowledge(
         source = result.metadata.get("source_file", "")
         book = result.metadata.get("book_title", "")
         header = f"[{i}] {heading}" if heading else f"[{i}]"
-        parts.append(f"{header}\nSource: {book} ({source})\nScore: {result.score:.3f}\n\n{result.content}")
+        body = f"{header}\nSource: {book} ({source})\nScore: {result.score:.3f}\n\n{result.content}"
+        parts.append(body)
 
     return "\n\n---\n\n".join(parts)
 
@@ -98,7 +99,8 @@ def search_code(
         heading = result.metadata.get("heading", "")
         book = result.metadata.get("book_title", "")
         header = f"[{i}] {heading}" if heading else f"[{i}]"
-        parts.append(f"{header}\nSource: {book}\nScore: {result.score:.3f}\n\n```\n{result.content}\n```")
+        body = f"{header}\nSource: {book}\nScore: {result.score:.3f}\n\n```\n{result.content}\n```"
+        parts.append(body)
 
     return "\n\n---\n\n".join(parts)
 

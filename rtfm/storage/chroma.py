@@ -71,7 +71,11 @@ class ChromaVectorStore(VectorStore):
             for doc, distance, metadata in zip(
                 results["documents"][0],
                 results["distances"][0],
-                results["metadatas"][0] if results["metadatas"] else [{}] * len(results["documents"][0]),
+                (
+                    results["metadatas"][0]
+                    if results["metadatas"]
+                    else [{}] * len(results["documents"][0])
+                ),
             ):
                 score = 1.0 - distance
                 query_results.append(
